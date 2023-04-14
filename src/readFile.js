@@ -6,7 +6,6 @@ const FILE_PATH = './talker.json'
 const readFile = async() => {
   const response = await fs.readFile(path.resolve(__dirname, FILE_PATH ));
   const data = JSON.parse(response);
-  console.log(data);
   return data;
 }
 
