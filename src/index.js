@@ -1,7 +1,16 @@
 const express = require('express');
+const talkerRoute = require('./route/talkerRoute');
 
 const app = express();
+
+//faz leitura de arquivos no formato json
 app.use(express.json());
+
+//rotas para os chamadas de endPoint
+app.use('/talker', talkerRoute);
+
+
+
 
 const HTTP_OK_STATUS = 200;
 const PORT = process.env.PORT || '3001';
