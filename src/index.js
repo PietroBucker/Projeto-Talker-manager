@@ -1,5 +1,6 @@
 const express = require('express');
 const talkerRoute = require('./route/talkerRoute');
+const loginRoute = require('./route/loginRoute');
 
 const app = express();
 
@@ -8,7 +9,7 @@ app.use(express.json());
 
 //rotas para os chamadas de endPoint
 app.use('/talker', talkerRoute);
-
+app.use('/login', loginRoute);
 
 
 
