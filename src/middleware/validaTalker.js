@@ -66,4 +66,3 @@ module.exports = {
   validateWatched,
   validateRate,
 };
-console.log(!'0');
