@@ -4,14 +4,12 @@ const loginRoute = require('./route/loginRoute');
 
 const app = express();
 
-//faz leitura de arquivos no formato json
+// faz leitura de arquivos no formato json
 app.use(express.json());
 
-//rotas para os chamadas de endPoint
+// rotas para os chamadas de endPoint
 app.use('/talker', talkerRoute);
 app.use('/login', loginRoute);
-
-
 
 const HTTP_OK_STATUS = 200;
 const PORT = process.env.PORT || '3001';
