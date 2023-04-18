@@ -43,6 +43,27 @@ route.post('/', validaToken, validaName, validaAge,
     res.status(201).json(addTalker);
 });
 
+route.put('/rate/:id', validaToken, validateRate, validateRateRange, async (req, res) => {
+  const { id } = req.params;
+  const { rate } = req.body;
+    const readFileResp = await readFile();
+
+    const searchId = readFileResp.some((element) => element.id === Number(id));
+
+    if (!searchId) {
+      return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+    }
+
+    const fileEdited = readFileResp.map((element) => {
+      if (element.id === Number(id)) {
+        return { ...element, talk: { ...element.talk, rate } }; 
+      }
+      return element;
+});
+    await writeUpdateFile(fileEdited);
+    return res.status(204).json();
+}); 
+
 route.put('/:id', validaToken, validaName, validaAge, 
   validateTalk, validateWatched, validateRate, validateRateRange, async (req, res) => {
     const { id } = req.params;

@@ -57,7 +57,7 @@ const watchedDateFormat = (req, res, next) => {
 };
 
 const validateRate = (req, res, next) => {
-  const { rate } = req.body.talk;
+  const { rate } = req.body.talk || req.body;
   
   if (!rate && rate !== 0) return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
   
@@ -65,7 +65,7 @@ const validateRate = (req, res, next) => {
 };
 
 const validateRateRange = (req, res, next) => {
-  const { rate } = req.body.talk;
+  const { rate } = req.body.talk || req.body;
   console.log(rate);
   if (!(Number.isInteger(Number(rate)) && (Number(rate) > 0 && Number(rate) <= 5))) {
     return res.status(400)
