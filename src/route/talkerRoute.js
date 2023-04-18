@@ -5,11 +5,18 @@ const { validaAge, validaName,
   validateWatched, validateRate, validateTalk, 
   validateRateRange, RateRange, watchedDateFormat } = require('../middleware/validaTalker');
 const filterTalker = require('../helpers/filterTalker');
+const talkDb = require('../db/talkerDb');
 
 const route = express.Router();
 
-route.get('/db', async () => {
-
+route.get('/db', async (req, res) => {
+  const [result] = await talkDb.select();
+  const editedResult = result.map((el) => (
+    { name: el.name,
+      age: el.age,
+      id: el.id, 
+      talk: { watchedAt: el.talk_watched_at, rate: el.talk_rate } }));
+  res.status(200).json(editedResult);
 });
 
 route.get('/search', validaToken, watchedDateFormat, RateRange, async (req, res) => {
