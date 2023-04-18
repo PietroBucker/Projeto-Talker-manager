@@ -13,6 +13,7 @@ route.get('/db', async (req, res) => {
   const [result] = await talkDb.select();
   const editedResult = result.map((el) => (
     { name: el.name,
+      
       age: el.age,
       id: el.id, 
       talk: { watchedAt: el.talk_watched_at, rate: el.talk_rate } }));
@@ -23,7 +24,6 @@ route.get('/search', validaToken, watchedDateFormat, RateRange, async (req, res)
   const { rate, q = '', date = '' } = req.query;
   
   const search = await filterTalker(rate, q, date);
-  console.log(search);
   if (!search) {
     return res.status(200).json([]);
   }
