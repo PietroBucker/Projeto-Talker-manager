@@ -7,7 +7,11 @@ const { validaAge, validaName,
 const filterTalker = require('../helpers/filterTalker');
 
 const route = express.Router();
-// .filter((e) => e.talk.rate.includes(Number(rate)))
+
+route.get('/db', async () => {
+
+});
+
 route.get('/search', validaToken, watchedDateFormat, RateRange, async (req, res) => {
   const { rate, q = '', date = '' } = req.query;
   
@@ -43,7 +47,7 @@ route.post('/', validaToken, validaName, validaAge,
     res.status(201).json(addTalker);
 });
 
-route.put('/rate/:id', validaToken, validateRate, validateRateRange, async (req, res) => {
+route.patch('/rate/:id', validaToken, validateRate, validateRateRange, async (req, res) => {
   const { id } = req.params;
   const { rate } = req.body;
     const readFileResp = await readFile();
