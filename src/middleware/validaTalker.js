@@ -44,6 +44,18 @@ const validateWatched = (req, res, next) => {
   return next();
 };
 
+const watchedDateFormat = (req, res, next) => {
+  const { date = '00/00/0000' } = req.query;
+
+  const validateWatchedAt = /^\d{2}[/]\d{2}[/]\d{4}$/.test(date);
+
+  if (!(validateWatchedAt || date === '')) {
+    return res.status(400)
+      .json({ message: 'O parâmetro "date" deve ter o formato "dd/mm/aaaa"' }); 
+  }
+  return next();
+};
+
 const validateRate = (req, res, next) => {
   const { rate } = req.body.talk;
   
@@ -76,6 +88,7 @@ module.exports = {
   validaAge,
   validateTalk,
   validateWatched,
+  watchedDateFormat,
   validateRate,
   validateRateRange,
   RateRange,

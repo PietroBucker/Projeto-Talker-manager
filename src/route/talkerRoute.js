@@ -3,23 +3,16 @@ const { readFile, writeFile, writeUpdateFile } = require('../helpers/readFile');
 const validaToken = require('../middleware/validaToken');
 const { validaAge, validaName,
   validateWatched, validateRate, validateTalk, 
-  validateRateRange, RateRange } = require('../middleware/validaTalker');
+  validateRateRange, RateRange, watchedDateFormat } = require('../middleware/validaTalker');
+const filterTalker = require('../helpers/filterTalker');
 
 const route = express.Router();
 // .filter((e) => e.talk.rate.includes(Number(rate)))
-route.get('/search', validaToken, RateRange, async (req, res) => {
-  const { rate, q = '' } = req.query;
-  console.log(q);
-  const readFileResp = await readFile();
-  const search = readFileResp.filter((el, _ind, arr) => {
-    if (el.talk.rate === Number(rate)) {
-      return el;
-    } 
-    if (!rate) {
-      return arr;
-    }
-    return null;
-  }).filter((element) => element.name.includes(q));
+route.get('/search', validaToken, watchedDateFormat, RateRange, async (req, res) => {
+  const { rate, q = '', date = '' } = req.query;
+  
+  const search = await filterTalker(rate, q, date);
+  console.log(search);
   if (!search) {
     return res.status(200).json([]);
   }
