@@ -46,16 +46,28 @@ const validateWatched = (req, res, next) => {
 
 const validateRate = (req, res, next) => {
   const { rate } = req.body.talk;
+  
+  if (!rate && rate !== 0) return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
+  
+  return next();
+};
 
-  const teste = rate <= 0 ? toString(rate) : rate;
-
-  if (!(teste)) return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
-
-  if (!(Number.isInteger(rate) && (teste <= 5))) {
+const validateRateRange = (req, res, next) => {
+  const { rate } = req.body.talk;
+  console.log(rate);
+  if (!(Number.isInteger(Number(rate)) && (Number(rate) > 0 && Number(rate) <= 5))) {
     return res.status(400)
       .json({ message: 'O campo "rate" deve ser um número inteiro entre 1 e 5' });
   }
+  return next();
+};
 
+const RateRange = (req, res, next) => {
+  const { rate } = req.query;
+  if ((!Number.isInteger(Number(rate)) || (rate < 1 || rate > 5))) {
+    return res.status(400)
+      .json({ message: 'O campo "rate" deve ser um número inteiro entre 1 e 5' });
+  }
   return next();
 };
 
@@ -65,4 +77,6 @@ module.exports = {
   validateTalk,
   validateWatched,
   validateRate,
+  validateRateRange,
+  RateRange,
 };

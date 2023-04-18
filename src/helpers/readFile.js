@@ -24,7 +24,16 @@ const writeFile = async (data) => {
   }
 };
 
+const writeUpdateFile = async (data) => {
+  try {
+   await fs.writeFile(path.resolve(__dirname, FILE_PATH), JSON.stringify(data));
+  } catch (error) {
+    console.error(`Erro ao escrever no file ${error.message}`);
+  }
+};
+
 module.exports = {
   readFile,
   writeFile,
+  writeUpdateFile,
 };
