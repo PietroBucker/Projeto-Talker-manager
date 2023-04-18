@@ -2,7 +2,8 @@ const express = require('express');
 const { readFile, writeFile, writeUpdateFile } = require('../helpers/readFile');
 const validaToken = require('../middleware/validaToken');
 const { validaAge, validaName,
-  validateWatched, validateRate, validateTalk, validateRateRange, RateRange } = require('../middleware/validaTalker');
+  validateWatched, validateRate, validateTalk, 
+  validateRateRange, RateRange } = require('../middleware/validaTalker');
 
 const route = express.Router();
 // .filter((e) => e.talk.rate.includes(Number(rate)))
@@ -17,6 +18,7 @@ route.get('/search', validaToken, RateRange, async (req, res) => {
     if (!rate) {
       return arr;
     }
+    return null;
   }).filter((element) => element.name.includes(q));
   if (!search) {
     return res.status(200).json([]);
@@ -74,6 +76,7 @@ route.delete('/:id', validaToken, async (req, res) => {
     if (element.id !== Number(id)) {
       return element;
     }
+    return null;
   });
   await writeUpdateFile(updateFile);
   return res.status(204).json();
